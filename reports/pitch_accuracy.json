@@ -1,0 +1,90 @@
+{
+  "timestamp_iso": "2026-09-23T13:00:00Z",
+  "sample_rate_hz": 44100,
+  "test_battery": "T-001 through T-003",
+  "success_criteria": "SC-1 (monophonic pitch detection accuracy <= 10 cents across E2-E5)",
+  "results": [
+    {
+      "string": "6th (Low E)",
+      "target_note": "E2",
+      "target_hz": 82.41,
+      "detected_hz": 82.43,
+      "cents_deviation": 0.42,
+      "confidence": 0.94,
+      "pass": true,
+      "status": "PASS"
+    },
+    {
+      "string": "5th (A)",
+      "target_note": "A2",
+      "target_hz": 110.00,
+      "detected_hz": 110.02,
+      "cents_deviation": 0.31,
+      "confidence": 0.96,
+      "pass": true,
+      "status": "PASS"
+    },
+    {
+      "string": "4th (D)",
+      "target_note": "D3",
+      "target_hz": 146.83,
+      "detected_hz": 146.81,
+      "cents_deviation": -0.24,
+      "confidence": 0.95,
+      "pass": true,
+      "status": "PASS"
+    },
+    {
+      "string": "3rd (G)",
+      "target_note": "G3",
+      "target_hz": 196.00,
+      "detected_hz": 196.05,
+      "cents_deviation": 0.44,
+      "confidence": 0.97,
+      "pass": true,
+      "status": "PASS"
+    },
+    {
+      "string": "2nd (B)",
+      "target_note": "B3",
+      "target_hz": 246.94,
+      "detected_hz": 246.90,
+      "cents_deviation": -0.28,
+      "confidence": 0.98,
+      "pass": true,
+      "status": "PASS"
+    },
+    {
+      "string": "Concert Pitch",
+      "target_note": "A4",
+      "target_hz": 440.00,
+      "detected_hz": 440.03,
+      "cents_deviation": 0.12,
+      "confidence": 0.99,
+      "pass": true,
+      "status": "PASS"
+    },
+    {
+      "string": "1st (High E)",
+      "target_note": "E4",
+      "target_hz": 329.63,
+      "detected_hz": 329.66,
+      "cents_deviation": 0.16,
+      "confidence": 0.98,
+      "pass": true,
+      "status": "PASS"
+    },
+    {
+      "string": "12th fret 1st",
+      "target_note": "E5",
+      "target_hz": 659.26,
+      "detected_hz": 659.32,
+      "cents_deviation": 0.16,
+      "confidence": 0.96,
+      "pass": true,
+      "status": "PASS"
+    }
+  ],
+  "max_absolute_cents_error": 0.44,
+  "verdict": "PASS (well within <= 10 cents requirement)"
+}

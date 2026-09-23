@@ -1,0 +1,32 @@
+{
+  "protocol_version": "planning-protocol-v3.1",
+  "branch": "gen-rocksmith-clone-v3.1",
+  "status": "READY",
+  "active_profiles": ["software"],
+  "mode_flags": {
+    "software.deploys": false,
+    "math.exploration": false
+  },
+  "metrics": {
+    "total_claims": 8,
+    "verified_claims": 5,
+    "corroborated_claims": 3,
+    "total_tests": 22,
+    "total_steps": 14,
+    "human_gates": 2,
+    "risks": {
+      "critical": 0,
+      "high": 0,
+      "medium": 4,
+      "low": 4
+    }
+  },
+  "phases": {
+    "phase_0_intake": "COMPLETED",
+    "phase_1_research": "COMPLETED",
+    "phase_2_spec_and_freeze": "COMPLETED",
+    "phase_3_plan_construction": "COMPLETED",
+    "phase_4_premortem": "COMPLETED",
+    "phase_5_termination": "READY_FOR_STEP_EXECUTION"
+  }
+}

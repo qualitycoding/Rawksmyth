@@ -1,0 +1,6 @@
+{
+  "name": "Sitar VST & Physical Modeling Audio Synthesizer",
+  "description": "Professional physical modeling Sitar virtual instrument and audio DSP studio featuring Karplus-Strong synthesis, Jawari buzzing bridge, sympathetic strings (tarab), Meend microtonal pitch bends, and Indian classical raga scales.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

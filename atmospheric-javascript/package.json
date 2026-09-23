@@ -1,0 +1,12 @@
+{
+  "name": "void-choir-tests",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "check": "node build.js --check",
+    "test": "node tests/run.js"
+  },
+  "devDependencies": {
+    "node-web-audio-api": "*"
+  }
+}

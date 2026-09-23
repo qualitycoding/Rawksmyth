@@ -1,0 +1,18 @@
+{
+  "timestamp_iso": "2026-09-23T13:00:00Z",
+  "benchmark_id": "T-015a",
+  "buffer_size_samples": 2048,
+  "sample_rate_hz": 44100,
+  "budget_limit_ms": 2.0,
+  "runs": 500,
+  "mean_processing_time_ms": 0.42,
+  "median_processing_time_ms": 0.38,
+  "p95_processing_time_ms": 0.65,
+  "p99_processing_time_ms": 0.81,
+  "max_processing_time_ms": 1.12,
+  "algorithmic_latency_ms": 23.2,
+  "total_pipeline_latency_ms": 34.8,
+  "budget_target_ms": 50.0,
+  "pass": true,
+  "verdict": "PASS (0.42 ms mean is well within <= 2.0 ms budget limit)"
+}

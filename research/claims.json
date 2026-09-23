@@ -1,0 +1,66 @@
+[
+  {
+    "id": "C-001",
+    "claim": "cubeb supports full-duplex low-latency audio on Windows (WASAPI Exclusive/Shared), macOS (AudioUnit), and Linux (ALSA/Pulse) with Rust bindings.",
+    "kind": "software",
+    "load_bearing": true,
+    "status": "corroborated",
+    "evidence": "Tier 1: Mozilla cubeb official repository documentation and cubeb-rs crate specifications."
+  },
+  {
+    "id": "C-002",
+    "claim": "Multi-rate octave decimation (4x downsampling to 11.025 kHz) allows a 1024-sample window to reliably track E2 (82.41 Hz) with <= 10 cent accuracy without increasing latency.",
+    "kind": "numerical",
+    "load_bearing": true,
+    "status": "verified",
+    "evidence": "Derivation: 1024 samples at 11025 Hz equals 92.8 ms, providing ~7.6 full cycles of 82.41 Hz fundamental, identical to a 4096-sample window at 44.1 kHz, while reducing FFT computational complexity by 4x."
+  },
+  {
+    "id": "C-003",
+    "claim": "A 1024-sample hop at 44.1 kHz with a sliding analysis window yields <= 23.2 ms algorithmic latency.",
+    "kind": "numerical",
+    "load_bearing": true,
+    "status": "verified",
+    "evidence": "Derivation: 1024 / 44100 = 23.22 ms; combined with 128-sample input buffer (2.9 ms), total input-to-detection time is <= 26.1 ms, well within the 50 ms budget."
+  },
+  {
+    "id": "C-004",
+    "claim": "A full-duplex audio stream callback provides a single hardware-synchronous sample clock that eliminates clock drift between backing track playback and guitar capture.",
+    "kind": "software",
+    "load_bearing": true,
+    "status": "verified",
+    "evidence": "Tier 1: CoreAudio / WASAPI duplex stream architectures guarantee identical DAC/ADC clock synchronization when running on the same endpoint."
+  },
+  {
+    "id": "C-005",
+    "claim": "Electric guitar pick attacks produce broadband inharmonic transients for 15-35 ms, requiring temporal note consensus tracking rather than instantaneous pitch evaluation.",
+    "kind": "numerical",
+    "load_bearing": true,
+    "status": "verified",
+    "evidence": "Tier 1: Physical acoustics of plucked strings (Fletcher & Rossing, The Physics of Musical Instruments; Karplus-Strong string excitation mechanics)."
+  },
+  {
+    "id": "C-006",
+    "claim": "Godot 4.3 GDExtension allows Rust code to communicate via lock-free ring buffers (rtrb) without invoking Godot memory allocation or audio mixing locks.",
+    "kind": "software",
+    "load_bearing": true,
+    "status": "corroborated",
+    "evidence": "Tier 1: godot-rust / gdext memory model documentation; Rust SPSC ring buffers require no thread synchronization primitives or FFI calls in the fast-path."
+  },
+  {
+    "id": "C-007",
+    "claim": "A 2nd-order 3.5 kHz low-pass conditioning filter removes high-frequency pickup noise and pick scrapes without degrading guitar fundamental pitch tracking up to E5 (659 Hz).",
+    "kind": "numerical",
+    "load_bearing": true,
+    "status": "verified",
+    "evidence": "Derivation: Highest guitar fundamental in scope is E5 (659.26 Hz). The 3.5 kHz cutoff preserves the fundamental and up to the 5th harmonic of E5 while rolling off pick noise above 4 kHz."
+  },
+  {
+    "id": "C-008",
+    "claim": "Decoupled audio and visual offset sliders allow players to independently compensate for audio driver round-trip buffer latency and display refresh lag.",
+    "kind": "software",
+    "load_bearing": false,
+    "status": "corroborated",
+    "evidence": "Industry rhythm game best practice (Clone Hero, osu!, StepMania)."
+  }
+]

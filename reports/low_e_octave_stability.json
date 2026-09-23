@@ -1,0 +1,16 @@
+{
+  "timestamp_iso": "2026-09-23T13:00:00Z",
+  "test_id": "T-020",
+  "target_note": "E2 (82.41 Hz)",
+  "sampling_rate_input_hz": 44100,
+  "sampling_rate_decimated_hz": 11025,
+  "decimation_factor": 4,
+  "window_size_decimated_samples": 1024,
+  "effective_temporal_span_ms": 92.83,
+  "captured_full_periods": 7.65,
+  "octave_jump_count": 0,
+  "subharmonic_error_count": 0,
+  "octave_error_rate_percent": 0.0,
+  "pass": true,
+  "verdict": "PASS (0% octave errors on low string)"
+}

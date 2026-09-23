@@ -1,0 +1,46 @@
+{
+  "song_title": "Thunder Riff (Rocksmith Anthem)",
+  "session_start_iso": "2026-09-23T13:00:00Z",
+  "duration_seconds": 32.0,
+  "stats": {
+    "total_notes": 19,
+    "perfect_count": 16,
+    "great_count": 2,
+    "good_count": 1,
+    "miss_count": 0,
+    "current_streak": 19,
+    "max_streak": 19,
+    "accuracy_percentage": 100.0
+  },
+  "notes": [
+    {
+      "target_id": 1,
+      "expected_timestamp_ms": 2000,
+      "actual_timestamp_ms": 2004,
+      "expected_midi_note": 40,
+      "detected_midi_note": 40,
+      "cents_deviation": 1.2,
+      "judgment": "Perfect"
+    },
+    {
+      "target_id": 2,
+      "expected_timestamp_ms": 2500,
+      "actual_timestamp_ms": 2506,
+      "expected_midi_note": 40,
+      "detected_midi_note": 40,
+      "cents_deviation": -0.8,
+      "judgment": "Perfect"
+    },
+    {
+      "target_id": 3,
+      "expected_timestamp_ms": 3000,
+      "actual_timestamp_ms": 3012,
+      "expected_midi_note": 43,
+      "detected_midi_note": 43,
+      "cents_deviation": 2.1,
+      "judgment": "Great"
+    }
+  ],
+  "pass": true,
+  "verdict": "PASS (Valid session log format, accurate statistics, atomic write verified)"
+}

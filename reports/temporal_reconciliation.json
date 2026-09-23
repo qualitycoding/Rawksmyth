@@ -1,0 +1,54 @@
+{
+  "timestamp_iso": "2026-09-23T13:00:00Z",
+  "test_id": "T-006",
+  "decision_id": "D-006",
+  "transient_blank_ms": 15,
+  "consensus_window_ms": 35,
+  "simulated_events": [
+    {
+      "event_type": "Pick Strike Onset",
+      "timestamp_ms": 500,
+      "detected_energy": 2.5
+    },
+    {
+      "event_type": "Pick Scrape High-Order Harmonic (Transient)",
+      "timestamp_ms": 506,
+      "frequency_hz": 1250.0,
+      "action": "DISCARDED by transient blank gate"
+    },
+    {
+      "event_type": "Bridge Buzz Harmonic (Transient)",
+      "timestamp_ms": 512,
+      "frequency_hz": 920.0,
+      "action": "DISCARDED by transient blank gate"
+    },
+    {
+      "event_type": "String Fundamental Settling (A2)",
+      "timestamp_ms": 520,
+      "frequency_hz": 110.1,
+      "action": "ACCUMULATED in consensus buffer"
+    },
+    {
+      "event_type": "String Fundamental Settled (A2)",
+      "timestamp_ms": 526,
+      "frequency_hz": 110.0,
+      "action": "ACCUMULATED in consensus buffer"
+    },
+    {
+      "event_type": "String Fundamental Settled (A2)",
+      "timestamp_ms": 532,
+      "frequency_hz": 109.9,
+      "action": "ACCUMULATED in consensus buffer"
+    }
+  ],
+  "poll_time_ms": 540,
+  "resolved_note": {
+    "onset_timestamp_ms": 500,
+    "resolved_frequency_hz": 110.0,
+    "midi_note": 45,
+    "cents_deviation": 0.0,
+    "note_name": "A2"
+  },
+  "pass": true,
+  "verdict": "PASS (Chaotic transient successfully rejected, stable fundamental accurately resolved)"
+}

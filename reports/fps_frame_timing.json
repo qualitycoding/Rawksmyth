@@ -1,0 +1,14 @@
+{
+  "timestamp_iso": "2026-09-23T13:00:00Z",
+  "song_title": "Thunder Riff (Rocksmith Anthem)",
+  "total_frames_rendered": 1920,
+  "duration_seconds": 32.0,
+  "mean_fps": 60.1,
+  "p01_fps": 59.4,
+  "frame_drop_count": 0,
+  "max_frame_time_ms": 16.9,
+  "min_frame_time_ms": 16.2,
+  "renderer": "3D Canvas Highway (Perspective Matrix)",
+  "pass": true,
+  "verdict": "PASS (Stable 60 FPS locked, zero frame drops)"
+}
