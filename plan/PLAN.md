@@ -79,7 +79,7 @@ N/A. Profiles inactive.
 | A-007 | Scoring model | Rocksmith-style: pitch gate + timing grade | Grade from onset timing; pitch must pass the identity band. |
 | A-008 | Latency calibration (**amended**) | Manual audio offset δ_a and video offset δ_v, plus offset assist (D-013) | Two offsets are standard in rhythm games; assist addresses misreported driver latency (R-104). |
 | A-009 | Repository | `qualitycoding/Rawksmyth` (new, empty) | Confirmed by human. |
-| A-010 | License | AGPL-3.0 | Unchanged here (licence review is open review point 8). The Essentia port and aubio dependency are removed in this revision. |
+| A-010 | License (**changed 2026-09-23**) | Apache-2.0 | Human decision, replacing the AGPL-3.0 default. Workable because the AGPL (Essentia port) and GPL (aubio) dependencies were removed in this revision; remaining dependencies must be Apache-2.0-compatible (checked in the licence review, point 8). |
 | A-011 (**new**) | Input/output device | Same device for input and output | Shared frame clock, no drift. Distinct devices supported with a warning via D-010. |
 | A-012 (**new**) | Pitch identity band | ±50 cents, configurable | A slightly out-of-tune guitar still scores; cents error is logged separately. |
 | A-013 (**new**) | String identity | Not verified — any string producing the charted pitch counts | Timbre-based string ID is out of scope. |
@@ -583,7 +583,7 @@ Counts:
 Open before READY:
 
 - **Point 7:** decide how HW-tier (T-015, T-016, T-019, T-030) and Human-tier (T-022) tests relate to SC-6; T-014 needs an advisory database, which conflicts with "no network" unless vendored.
-- **Point 8:** execute R2–R6 and record evidence; verify all citations (C-005 source; A-010 precedent); licence review (Essentia port and aubio are now removed, which simplifies it).
+- **Point 8:** execute R2–R6 and record evidence; verify all citations (C-005 source); licence review confirming every pinned dependency is compatible with Apache-2.0 (A-010).
 
 ### 5.3 Commit and Push
 

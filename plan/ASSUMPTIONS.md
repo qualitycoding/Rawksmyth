@@ -13,7 +13,7 @@ Status: **confirmed by human at intake, 2026-09-23.** All proposed defaults adop
 | A-007 | Scoring model | Rocksmith-style: pitch gate + timing grade |
 | A-008 | Latency calibration | Manual audio offset δ_a and video offset δ_v, plus offset assist (D-013) |
 | A-009 | Repository | `qualitycoding/Rawksmyth` |
-| A-010 | License | AGPL-3.0 (licence review still open — review point 8) |
+| A-010 | License | Apache-2.0 (changed from AGPL-3.0 default on 2026-09-23; `LICENSE` at repo root; dependency compatibility check open — review point 8) |
 | A-011 | Input/output device | Same device for input and output; distinct devices supported with warning (D-010) |
 | A-012 | Pitch identity band | ±50 cents, configurable |
 | A-013 | String identity | Not verified; any string producing the charted pitch counts |
