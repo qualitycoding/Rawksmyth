@@ -1,0 +1,29 @@
+name: CI (gtcore, CI-tier only)
+
+# Runs only the hardware-independent gtcore crate (T-014 dependency scan
+# and the CI-tier unit tests in chart.rs / clock.rs). HW-tier tests
+# (T-015, T-016, T-019, T-030) and the Human-tier test (T-022) are not run
+# here — see plan/PLAN.md §2B.3 and HANDOFF.md.
+
+on:
+  push:
+    branches: ["gen-*", "main"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.83.0
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+      - name: Verify freeze manifest
+        run: sha256sum -c tests/FROZEN_MANIFEST.sha256
+      - name: cargo test (gtcore)
+        run: cargo test --workspace
+      - name: cargo audit (T-014)
+        run: |
+          cargo install cargo-audit --locked
+          cargo audit

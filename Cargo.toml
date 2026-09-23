@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+members = ["gtcore"]
+
+# gtaudio (cubeb duplex backend) and gtbridge (gdext) are not yet implemented —
+# they require real audio hardware / Godot, which this build environment does
+# not have. See HANDOFF.md.

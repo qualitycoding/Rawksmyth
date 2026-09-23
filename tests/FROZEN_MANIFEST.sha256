@@ -1,0 +1,6 @@
+# FROZEN — DO NOT MODIFY
+# Per plan/PLAN.md §2E: implementing agents cannot modify, skip, or weaken
+# these frozen test files. Generated at first freeze of the CI-tier subset
+# of gtcore (chart.rs, clock.rs). Verify with: sha256sum -c tests/FROZEN_MANIFEST.sha256
+a120d55279c34d10aaed5377da4f12f3ec56f4102032aedce95ad31e4511fc8b  gtcore/src/chart.rs
+1215581ef900b1a35f349b8a0d4adc5ca55e9a8295b3fba12abfee31e03cd8de  gtcore/src/clock.rs
