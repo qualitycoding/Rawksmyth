@@ -25,5 +25,6 @@ jobs:
         run: cargo test --workspace
       - name: cargo audit (T-014)
         run: |
-          cargo install cargo-audit --locked
+          # 0.22.x needs Rust >= 1.85; 0.21.2 is the newest that builds on the pinned 1.83.0.
+          cargo install cargo-audit --locked --version 0.21.2
           cargo audit
