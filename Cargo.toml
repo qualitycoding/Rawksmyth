@@ -1,7 +1,14 @@
 [workspace]
 resolver = "2"
-members = ["gtcore"]
+members = ["gtcore", "tests/fixtures/gen"]
 
 # gtaudio (cubeb duplex backend) and gtbridge (gdext) are not yet implemented —
 # they require real audio hardware / Godot, which this build environment does
 # not have. See HANDOFF.md.
+
+# The DSP tests run signal processing over seconds of audio; unoptimized builds
+# are ~20x slower. Debug assertions stay on (T-021 needs them).
+[profile.test]
+opt-level = 2
+[profile.dev]
+opt-level = 1

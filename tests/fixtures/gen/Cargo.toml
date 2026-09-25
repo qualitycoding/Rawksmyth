@@ -1,0 +1,10 @@
+[package]
+name = "gtfixtures"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Deterministic test-signal generator (plan §2B.2). Deliberately has no
+# dependency on gtcore (no cycle) and no RNG crate: all randomness comes from
+# the seeded xorshift generator in this crate.
+[dependencies]
