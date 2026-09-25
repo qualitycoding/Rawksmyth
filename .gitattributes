@@ -1,0 +1,15 @@
+# Repo-wide: normalize text to LF in the index, and check out as LF everywhere
+# (overrides core.autocrlf so hashes in tests/FROZEN_MANIFEST.sha256 are
+# reproducible on Windows and *nix).
+* text=auto eol=lf
+
+# Explicit for files whose bytes are hashed or parsed by POSIX tools
+tests/FROZEN_MANIFEST.sha256 text eol=lf
+*.rs                         text eol=lf
+*.toml                       text eol=lf
+Cargo.lock                   text eol=lf
+*.sh                         text eol=lf
+
+# Never touch binaries (future fixtures, WAVs, etc.)
+*.wav binary
+*.png binary
