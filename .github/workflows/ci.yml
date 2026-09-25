@@ -27,4 +27,12 @@ jobs:
         run: |
           # 0.22.x needs Rust >= 1.85; 0.21.2 is the newest that builds on the pinned 1.83.0.
           cargo install cargo-audit --locked --version 0.21.2
-          cargo audit
+          # Print the audit output and also surface it as an annotation, so a
+          # failure is diagnosable without downloading the job log.
+          if out=$(cargo audit 2>&1); then
+            echo "$out"
+          else
+            echo "$out"
+            echo "::error title=cargo audit failed::$(echo "$out" | head -c 3000 | sed ':a;N;$!ba;s/\n/%0A/g')"
+            exit 1
+          fi
