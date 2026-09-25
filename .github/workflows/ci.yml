@@ -25,11 +25,15 @@ jobs:
         run: cargo test --workspace
       - name: cargo audit (T-014)
         run: |
-          # 0.22.x needs Rust >= 1.85; 0.21.2 is the newest that builds on the pinned 1.83.0.
-          cargo install cargo-audit --locked --version 0.21.2
+          # The project builds on the pinned 1.83.0, but cargo-audit only reads
+          # Cargo.lock, so it runs on current stable: cargo-audit < 0.22 cannot
+          # parse the CVSS 4.0 scores now in the RustSec advisory database, and
+          # 0.22+ needs Rust >= 1.85.
+          rustup toolchain install stable --profile minimal
+          cargo +stable install cargo-audit --locked
           # Print the audit output and also surface it as an annotation, so a
           # failure is diagnosable without downloading the job log.
-          if out=$(cargo audit 2>&1); then
+          if out=$(cargo +stable audit 2>&1); then
             echo "$out"
           else
             echo "$out"
