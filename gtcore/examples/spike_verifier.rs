@@ -50,7 +50,7 @@ fn describe(ev: &[NoteEvidence]) -> String {
                 e.presence,
                 e.cents_error.map(|c| (c * 10.0).round() / 10.0),
                 e.aperiodicity,
-                e.onset.map(|o| ((e.decided_at as i64 - 44100) as f64 / 44.1 * 10.0).round() / 10.0),
+                e.onset.map(|_o| ((e.decided_at as i64 - 44100) as f64 / 44.1 * 10.0).round() / 10.0),
             )
         })
         .collect::<Vec<_>>()
@@ -61,6 +61,9 @@ fn main() {
     let mode = std::env::args().nth(1).unwrap_or_default();
     if mode == "rates" { rates(); return; }
     if mode == "letring" { let_ring(); return; }
+    if mode == "sweep" { let_ring_sweep(); return; }
+    if mode == "scale" { scale_by_decay(); return; }
+    if mode == "scaleseeds" { scale_seeds(); return; }
     println!("== clean plucks, expected = played");
     for midi in (40..=79).step_by(3) {
         let f = midi_to_hz(midi as f64);
@@ -168,4 +171,92 @@ pub fn let_ring() {
         println!("A2 over E2 ring {ring_db:+} dB (gap {gap_ms} ms): {}", s.join(" | "));
     }
     // Same pitch repeated: E2 rings, E2 replucked expected -> requires attributed onset
+}
+
+/// R-108 sweep: a previous note (interval semitones below/above the expected
+/// note) rings `ring_db` below the new pluck at the moment it is plucked.
+/// Prints the Present rate over registers; the row shows where it breaks.
+#[allow(dead_code)]
+pub fn let_ring_sweep() {
+    let decay = 8.0f64;
+    let gap_ms = 450.0;
+    let rings = [-1.0f64, -3.0, -4.0, -5.0, -6.0, -8.0, -10.0, -14.0];
+    print!("interval / ring dB:");
+    for r in rings { print!("{r:>7}"); }
+    println!();
+    for interval in [-12i32, -7, -5, -2, -1, 1, 2, 5, 7, 12] {
+        print!("prev {interval:+3} st       ");
+        for &ring_db in &rings {
+            let (mut ok, mut n) = (0, 0);
+            for midi in [45i32, 50, 57, 62, 69, 74] {
+                let prev_midi = midi + interval;
+                if !(40..=80).contains(&prev_midi) { continue; }
+                let t_new = T0_S + ms_to_frames(gap_ms);
+                let amp_new = 0.5f64;
+                let level = amp_new * 10f64.powf(ring_db / 20.0);
+                let amp_prev = level * 10f64.powf(decay * gap_ms / 1000.0 / 20.0);
+                let mut sig = vec![0.0f32; 44100 * 3];
+                mix_at(&mut sig, &Pluck::new(midi_to_hz(prev_midi as f64), 31).amp(amp_prev as f32).render(44100 * 2), T0_S as usize, 1.0);
+                mix_at(&mut sig, &Pluck::new(midi_to_hz(midi as f64), 32).amp(amp_new as f32).render(44100), t_new as usize, 1.0);
+                add_noise_floor(&mut sig, 3e-4, 5);
+                let ev = run(&sig, &[expect(1, midi_to_hz(midi as f64), t_new)], VerifierConfig::default());
+                n += 1;
+                if ev.iter().any(|e| e.kind == EvidenceKind::Decision && e.presence == Presence::Present) { ok += 1; }
+            }
+            print!("{:>4}/{:<2}", ok, n);
+        }
+        println!();
+    }
+}
+const T0_S: u64 = 44100;
+
+/// C-major scale C3..C5 at 0.45 s spacing through the full verifier, for a
+/// range of string decay rates: which notes are rejected?
+#[allow(dead_code)]
+pub fn scale_by_decay() {
+    let steps = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24];
+    for spacing in [0.45f64, 0.30] {
+        for decay in [8.0f64, 10.0, 12.0, 16.0, 24.0] {
+            let mut sig = vec![0.0f32; 44100 * 12];
+            let mut expected = Vec::new();
+            for (i, s) in steps.iter().enumerate() {
+                let t = T0_S + ms_to_frames(spacing * 1000.0 * i as f64);
+                let f = midi_to_hz(48.0 + *s as f64);
+                let mut p = Pluck::new(f, 1000 + i as u64).amp(0.6).decay(decay).render(ms_to_frames(900.0) as usize);
+                fade_out(&mut p, ms_to_frames(120.0) as usize);
+                mix_at(&mut sig, &p, t as usize, 1.0);
+                expected.push(expect(i as u32 + 1, f, t));
+            }
+            add_noise_floor(&mut sig, 3e-4, 5);
+            let ev = run(&sig, &expected, VerifierConfig::default());
+            let bad: Vec<String> = ev
+                .iter()
+                .filter(|e| e.kind == EvidenceKind::Decision && e.presence != Presence::Present)
+                .map(|e| format!("{}:{:?}", e.note_id, e.presence))
+                .collect();
+            println!("spacing {spacing:.2}s decay {decay:>4} dB/s -> rejected: {}", if bad.is_empty() { "none".to_string() } else { bad.join(" ") });
+        }
+    }
+}
+
+/// Scale pass rate over many excitation seeds with `render_part` (realistic decay).
+#[allow(dead_code)]
+pub fn scale_seeds() {
+    let steps = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24];
+    for spacing in [0.60f64, 0.45, 0.30] {
+        let (mut runs_clean, mut notes_bad, mut notes_total) = (0, 0, 0);
+        let n_seeds = 30;
+        for seed in 0..n_seeds {
+            let plucks: Vec<PluckAt> = steps.iter().enumerate().map(|(i, s)| PluckAt {
+                frame: (T0_S + ms_to_frames(spacing * 1000.0 * i as f64)) as usize,
+                f0_hz: midi_to_hz(48.0 + *s as f64), amp: 0.6 }).collect();
+            let sig = render_part(&plucks, 44100 * 12, 900.0, 5000 + seed);
+            let expected: Vec<_> = plucks.iter().enumerate().map(|(i, p)| expect(i as u32 + 1, p.f0_hz, p.frame as u64)).collect();
+            let ev = run(&sig, &expected, VerifierConfig::default());
+            let bad = ev.iter().filter(|e| e.kind == EvidenceKind::Decision && e.presence != Presence::Present).count();
+            notes_bad += bad; notes_total += expected.len();
+            if bad == 0 { runs_clean += 1; }
+        }
+        println!("realistic decay, spacing {spacing:.2}s: {runs_clean}/{n_seeds} scales fully Present; {notes_bad}/{notes_total} notes rejected");
+    }
 }

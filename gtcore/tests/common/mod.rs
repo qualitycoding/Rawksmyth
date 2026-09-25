@@ -54,3 +54,40 @@ pub fn single_pluck(p: Pluck, t: usize) -> Vec<f32> {
 }
 
 pub const T0: u64 = 44100;
+
+use gtcore::clock::ClockModel;
+use gtcore::pipeline::Pipeline;
+use gtcore::scoring::{JudgedNote, Scorer, WindowScorer};
+
+/// Run the full pipeline + scorer over `sig` in blocks of `block` frames.
+/// Returns (all evidence, all judgments in the order issued).
+pub fn run_scored(
+    chart: &[ChartNote],
+    clock: &ClockModel,
+    sig: &[f32],
+    block: usize,
+) -> (Vec<NoteEvidence>, Vec<JudgedNote>) {
+    let mut pipe = Pipeline::new(chart, clock);
+    let mut scorer = WindowScorer::new(chart);
+    let (mut all_ev, mut judged) = (Vec::new(), Vec::new());
+    let mut first: Frame = 0;
+    for blk in sig.chunks(block) {
+        let mut ev = Vec::new();
+        pipe.process(blk, first, &mut ev);
+        first += blk.len() as Frame;
+        for e in &ev {
+            let note = chart.iter().find(|n| n.id == e.note_id).unwrap();
+            if let Some(j) = scorer.on_evidence(e, note, clock) {
+                judged.push(j);
+            }
+        }
+        judged.extend(scorer.expire(first, clock));
+        all_ev.extend(ev);
+    }
+    (all_ev, judged)
+}
+
+/// A chart note at song time `start_s` for `midi`.
+pub fn note_at(id: u32, start_s: f64, midi: f64) -> ChartNote {
+    ChartNote { id, start_s, sustain_s: 0.3, string: 0, fret: 0, target_hz: midi_to_hz(midi) as f32, legato: false }
+}

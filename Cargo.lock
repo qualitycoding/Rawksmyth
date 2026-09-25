@@ -3,6 +3,23 @@
 version = 4
 
 [[package]]
+name = "gtapp"
+version = "0.1.0"
+dependencies = [
+ "gtaudio",
+ "gtcore",
+ "gtfixtures",
+ "serde_json",
+]
+
+[[package]]
+name = "gtaudio"
+version = "0.1.0"
+dependencies = [
+ "gtcore",
+]
+
+[[package]]
 name = "gtcore"
 version = "0.1.0"
 dependencies = [

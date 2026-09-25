@@ -1,0 +1,12 @@
+[package]
+name = "gtaudio"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Audio engine (plan step S-002): AudioBackend abstraction, deterministic file
+# backend, RT callback core, lock-free rings and clock seqlock. The cubeb
+# duplex backend is NOT here: it needs a real audio interface to be verified
+# (HANDOFF.md).
+[dependencies]
+gtcore = { path = "../gtcore" }

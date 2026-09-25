@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["gtcore", "tests/fixtures/gen"]
+members = ["gtcore", "gtaudio", "gtapp", "tests/fixtures/gen"]
 
 # gtaudio (cubeb duplex backend) and gtbridge (gdext) are not yet implemented —
 # they require real audio hardware / Godot, which this build environment does

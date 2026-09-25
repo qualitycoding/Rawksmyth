@@ -24,10 +24,9 @@ fn run(cfg: &OnsetConfig, seeds: std::ops::Range<u64>) -> (usize, usize, usize, 
 }
 
 fn main() {
-    for mf in [1usize, 2] {
-        let mut cfg = OnsetConfig::default();
-        cfg.max_filter = mf;
-        let (t, m, x, med, p95, mx) = run(&cfg, 100..140);
-        println!("HELD-OUT seeds 100..140 mf {mf}: total {t} missed {m} extra {x} |err| ms med {med:.2} p95 {p95:.2} max {mx:.2}");
+    let cfg = OnsetConfig::default();
+    for (label, seeds) in [("seeds 1..11 (thresholds were tuned here)", 1..11u64), ("seeds 100..140 (held out)", 100..140u64)] {
+        let (t, m, x, med, p95, mx) = run(&cfg, seeds);
+        println!("{label}: total {t} missed {m} spurious {x} |err| ms median {med:.2} p95 {p95:.2} max {mx:.2}");
     }
 }

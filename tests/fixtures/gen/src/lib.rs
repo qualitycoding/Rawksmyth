@@ -420,3 +420,43 @@ mod tuning_selftest {
         assert!(x[0].abs() > 0.0 || x[1].abs() > 0.0);
     }
 }
+
+/// One pluck to place in a rendered part.
+#[derive(Debug, Clone, Copy)]
+pub struct PluckAt {
+    /// Frame of the excitation start (= ground-truth onset).
+    pub frame: usize,
+    pub f0_hz: f64,
+    pub amp: f32,
+}
+
+/// Render a guitar part: each pluck synthesized with its own seed, faded out
+/// after `ring_ms`, mixed on a −70 dBFS noise floor. `total_len` frames long.
+pub fn render_part(plucks: &[PluckAt], total_len: usize, ring_ms: f64, seed: u64) -> Vec<f32> {
+    let mut sig = vec![0.0f32; total_len];
+    let ring = ms_to_frames(ring_ms) as usize;
+    for (k, p) in plucks.iter().enumerate() {
+        let len = ring.min(total_len.saturating_sub(p.frame));
+        if len == 0 {
+            continue;
+        }
+        let mut s = Pluck::new(p.f0_hz, seed.wrapping_add(k as u64 * 7919 + 1))
+            .amp(p.amp)
+            .decay(guitar_decay_db_per_s(p.f0_hz))
+            .render(len);
+        fade_out(&mut s, ms_to_frames(120.0) as usize);
+        mix_at(&mut sig, &s, p.frame, 1.0);
+    }
+    add_noise_floor(&mut sig, 3e-4, seed ^ 0x5CA1E);
+    sig
+}
+
+/// Amplitude decay of the fundamental, dB/s, used by `render_part`: slower for
+/// low strings, faster for high ones (E2 ≈ 12, A3 ≈ 19, E4 ≈ 24, E5 ≈ 34).
+/// ASSUMPTION: a plausible electric-guitar figure chosen by the implementer,
+/// not taken from a measurement or a verified source (plan Phase 1 research
+/// was never run). The verifier tests that depend on ring level (T-034, the
+/// let-ring sweep in the spike) use explicit, stated levels instead.
+pub fn guitar_decay_db_per_s(f0_hz: f64) -> f64 {
+    12.0 * (f0_hz / 82.41).sqrt()
+}

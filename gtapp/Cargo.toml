@@ -1,0 +1,16 @@
+[package]
+name = "gtapp"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Headless application core (plan step S-013, hardware-free part): song
+# loading, the scoring engine wiring, and a session runner over any
+# AudioBackend. The Godot front end (gtbridge) is not built here.
+[dependencies]
+gtcore = { path = "../gtcore" }
+gtaudio = { path = "../gtaudio" }
+serde_json = "1"
+
+[dev-dependencies]
+gtfixtures = { path = "../tests/fixtures/gen" }

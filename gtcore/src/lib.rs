@@ -2,16 +2,22 @@
 //! clone (plan/PLAN.md). No dependency on cubeb, a real audio device, or
 //! Godot — everything here is CI-tier testable (plan §2B.3).
 //!
-//! Implemented so far (see HANDOFF.md for what is deferred and why):
-//! - `chart`: chart format + parser (S-007) — T-012, T-013, T-029, A-014.
-//! - `clock`: clock model + render-clock fit math (S-003, partial) — T-023,
-//!   and the pure-math portion of T-024.
+//! - `chart`: chart format + parser (S-007).
+//! - `clock`, `drift`: clock model, render-clock fit, two-device drift (S-003).
+//! - `dsp`: onset detector (S-004) and constrained-NSDF note verifier (S-005).
+//! - `pipeline`: onset + verifier + attribution, block driven (S-006).
+//! - `scoring`: timing-window judgments (S-009).
+//! - `highway`: note-highway layout (S-011, engine-agnostic half).
+//! - `session`: session log, atomic write (S-012).
 //!
-//! NOT implemented in this pass (require real audio hardware, a live
-//! cubeb stream, or a Godot/gdext build — see plan Phase 1 spikes and
-//! gate G-001): `dsp::onset`, `dsp::verifier`, `pipeline`, `scoring`,
-//! `highway`, and all of `gtaudio` / `gtbridge`.
+//! Not here (need hardware / Godot; see HANDOFF.md): the cubeb backend, the
+//! gdext bridge and the Godot scene. `gtaudio` and `gtapp` hold the rest.
 
 pub mod chart;
 pub mod clock;
 pub mod dsp;
+pub mod drift;
+pub mod highway;
+pub mod pipeline;
+pub mod scoring;
+pub mod session;
