@@ -103,3 +103,13 @@ G-001 real-guitar let-ring test decides. The example song therefore keeps
   worst corrected timing error 0.058 ms; the uncorrected mapping reaches
   14.9 ms. Warning raised within 1 s of data. No warning for two devices on the
   same clock.
+
+## Spike 1 — cubeb duplex
+
+Partial; see `research/spikes/spike-cubeb-duplex/RESULTS.md`. In short: on a
+Windows laptop (WASAPI shared) C-011 held (0 mismatched callbacks in ~1180),
+callbacks were 441 frames not 256, and two real backend issues were found (COM
+must be initialised; registering a device-changed callback fails with
+`NotSupported`). **No valid round-trip latency was obtained**: the laptop
+microphone returned digital silence and no reference interface / loopback
+cable was available.

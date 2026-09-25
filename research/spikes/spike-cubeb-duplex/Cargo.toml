@@ -1,0 +1,15 @@
+[package]
+name = "spike-cubeb-duplex"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Spike 1 (plan §1.3 R6): cubeb duplex behaviour and round-trip latency.
+# Needs a real audio device; not part of the CI test suite.
+[dependencies]
+cubeb = "0.38"
+gtaudio = { path = "../../../gtaudio" }
+gtcore = { path = "../../../gtcore" }
+
+# Standalone: not a member of the main workspace (see root Cargo.toml).
+[workspace]

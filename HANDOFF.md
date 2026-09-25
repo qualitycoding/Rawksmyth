@@ -39,11 +39,12 @@ Try it: `cargo run --release -p gtapp --bin gt-headless -- assets/songs/example 
 
 | Component | Step | Why |
 |---|---|---|
-| cubeb duplex backend | S-002 | Needs a real interface to verify (spike 1: equal frame counts, L_in/L_out accuracy). Implements the existing `gtaudio::backend::AudioBackend` trait. |
+| cubeb duplex backend | S-002 | Spike 1 tool built and partly run (C-011 held on WASAPI shared). Backend still unwritten: needs COM init, must not register `device_changed_cb` on WASAPI, stereo-frame duplex, and L_rt verification on a real interface. Implements `gtaudio::backend::AudioBackend`. |
 | `gtbridge` (gdext) and `godot-project/` | S-010, S-011 | No Godot/display here. `gtcore::highway` already produces the `NotePose`s the scene should draw; `gtcore::drift::RENDER_FIT_WINDOW` is the render-clock fit size to use. |
 | Live three-thread wiring, settings UI, macOS mic plist | S-013 | Need hardware/UI. `gtapp::run_session` shows the intended single-thread-equivalent flow. |
 | Performance hardening | S-014 | Needs hardware (T-015, T-016, T-019, T-021 HW part). |
 | G-001 evidence, real-guitar validation | — | Needs a guitar and interface. |
+| Spike 1 proper (L_rt measured vs reported) | — | Tool exists (`research/spikes/spike-cubeb-duplex`, standalone); run only partially on a laptop with a silent mic. Needs the reference interface + loopback cable. See its RESULTS.md. |
 | D-012 harmonic-comb verifier | — | Not triggered by the plan's rule (T-034 passes); see R-108 below. |
 
 ### Deviations from the plan (all measured, all in code comments)

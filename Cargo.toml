@@ -1,6 +1,9 @@
 [workspace]
 resolver = "2"
 members = ["gtcore", "gtaudio", "gtapp", "tests/fixtures/gen"]
+# Hardware spikes build standalone (cubeb needs cmake and, on Linux, audio dev
+# libraries), so CI-tier `cargo test --workspace` never compiles them.
+exclude = ["research/spikes/spike-cubeb-duplex"]
 
 # gtaudio (cubeb duplex backend) and gtbridge (gdext) are not yet implemented —
 # they require real audio hardware / Godot, which this build environment does
