@@ -1,3 +1,5 @@
+# PLAN — protocol v3.9 (upgraded by ADDENDUM-PLAN-V3.9.md)
+
 # Rocksmith Clone — Execution Plan (planning-protocol-v3.1) — Revision 2
 
 ## Revision note
@@ -604,3 +606,12 @@ Residual Low risks: render stalls; parser limits; Godot device contention; legat
   same-pitch attribution; gdext compatibility; comb-verifier fork; offset-assist bias.
 Execution has halted. No plan step has been executed. No deployment, release, or external action has been taken.
 ```
+
+
+## Amendment closing/review steps (v3.9)
+
+- **S-000** — Intake and environment probe (recorded at plan intake).
+- **S-REVIEW** — Traditional code review before packaging/release.
+- **S-ADVERSARIAL** — Adversarial review of security/correctness claims.
+- **S-RETRO** — Retrospective: review execution log, deviations and gate records.
+- **S-KNOW** — Knowledge/lessons: record classified lessons and knowledge items; G-003 controls publication to the Lessons and knowledge stores.
