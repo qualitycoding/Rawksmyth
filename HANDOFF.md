@@ -1,5 +1,7 @@
 # HANDOFF
 
+
+Reading order: `HANDOFF.md` → `ADDENDUM-PLAN-V3.9.md` → `plan/PLAN.md`. Later protocol amendments take precedence only where the gap ledger says so.
 ## Purpose
 
 Build a Rocksmith-style guitar learning game (plan/PLAN.md, Revision 2). This document is the entry point for anyone — human or agent — picking this up.
